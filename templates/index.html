@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovScheme AI - Smart Scheme Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-content">
+            <h1>🚀 GovScheme AI</h1>
+            <nav>
+                {% if user.is_authenticated %}
+                <span class="nav-link">Welcome, {{ user.name }}</span>
+                {% if user.role == 'admin' %}
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link active">Admin Dashboard</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="nav-link btn-logout">Logout</a>
+                {% else %}
+                <div class="auth-buttons">
+                    <a href="{{ url_for('login') }}" class="btn-login">Login</a>
+                    <a href="{{ url_for('register') }}" class="btn-signup">Sign Up</a>
+                </div>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Find Government Schemes<br>You Are Eligible For.</h2>
+            <p>Our AI-powered engine analyzes your profile against hundreds of government schemes to find the perfect
+                match. Fast, Private, and Secure.</p>
+        </section>
+
+        <!-- Search Form -->
+        <section class="form-section glass-card">
+            <form id="scheme-form">
+                <div class="input-group-row">
+                    <div class="input-group">
+                        <label for="age">Age (Years)</label>
+                        <input type="number" id="age" name="age" required min="0" max="100" placeholder="e.g. 25">
+                    </div>
+                    <div class="input-group">
+                        <label for="gender">Gender</label>
+                        <select id="gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group-row">
+                    <div class="input-group">
+                        <label for="income">Annual Family Income (₹)</label>
+                        <input type="number" id="income" name="income" required min="0" placeholder="e.g. 150000">
+                    </div>
+                    <div class="input-group">
+                        <label for="state">State of Residence</label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="West Bengal">West Bengal</option>
+                            <option value="Delhi">Delhi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group-row">
+                    <div class="input-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="General">General</option>
+                            <option value="OBC">OBC</option>
+                            <option value="SC">SC</option>
+                            <option value="ST">ST</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="occupation">Occupation</label>
+                        <select id="occupation" name="occupation" required>
+                            <option value="Student">Student</option>
+                            <option value="Unemployed">Unemployed</option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Daily Wage Worker">Daily Wage Worker</option>
+                            <option value="Self Employed">Self Employed</option>
+                            <option value="Government Employee">Government Employee</option>
+                            <option value="Private Employee">Private Employee</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group-row">
+                    <div class="input-group">
+                        <label for="education">Highest Qualification</label>
+                        <select id="education" name="education" required>
+                            <option value="Uneducated">Uneducated</option>
+                            <option value="10th Pass">10th Pass</option>
+                            <option value="12th Pass">12th Pass</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Post Graduate">Post Graduate</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="disability">Disability?</label>
+                        <select id="disability" name="disability" required>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Find Eligible Schemes ✨</button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="results-grid" style="display: none;">
+            <!-- Schemes will be injected here -->
+        </section>
+
+        <div id="loading" class="loading" style="display: none;">
+            <p>Analyzing profile...</p>
+        </div>
+
+        <div id="no-results" class="error-msg" style="display: none;">
+            <p>No eligible schemes found based on the provided details.</p>
+        </div>
+
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

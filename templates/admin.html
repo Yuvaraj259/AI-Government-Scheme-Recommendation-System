@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | GovScheme Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="container header-content">
+            <h1>🛡️ Admin Dashboard</h1>
+            <nav style="display: flex; gap: 20px;">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('logout') }}" class="nav-link btn-logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Schemes</h3>
+                <p class="stat-number">{{ stats.total_schemes }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <p class="stat-number">{{ stats.total_users }}</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <div class="section-header">
+                <h2>Manage Schemes</h2>
+                <button class="btn-primary btn-sm" onclick="openAddModal()">+ Add Scheme</button>
+            </div>
+
+            <table class="schemes-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>State</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in schemes %}
+                    <tr>
+                        <td>#{{ item.scheme.id }}</td>
+                        <td>{{ item.scheme.name }}</td>
+                        <td>{{ item.scheme.state if item.scheme.state else 'Central' }}</td>
+                        <td>
+                            <span class="status-badge {{ 'active' if item.scheme.is_active else 'inactive' }}">
+                                {{ 'Active' if item.scheme.is_active else 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn-icon" data-item='{{ item | tojson | forceescape }}'
+                                    onclick='openEditModal(JSON.parse(this.dataset.item))' title="Edit">✏️</button>
+
+                                <form action="{{ url_for('delete_scheme', scheme_id=item.scheme.id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this scheme?');">
+                                    <button type="submit" class="btn-icon" title="Delete"
+                                        style="color: red;">🗑️</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <!-- Add/Edit Scheme Modal -->
+    <div id="addSchemeModal" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle">Add New Government Scheme</h2>
+            <form id="schemeForm" action="{{ url_for('add_scheme') }}" method="POST" class="auth-form">
+                <input type="hidden" id="scheme_id" name="scheme_id">
+
+                <!-- Basic Details -->
+                <h3>Basic Details</h3>
+                <div class="input-group">
+                    <label>Scheme Name</label>
+                    <input type="text" id="m_name" name="scheme_name" required>
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <input type="text" id="m_desc" name="description" required>
+                </div>
+                <div class="input-group">
+                    <label>Benefits</label>
+                    <input type="text" id="m_benefits" name="benefits" required>
+                </div>
+                <div class="input-group">
+                    <label>Documents Required</label>
+                    <input type="text" id="m_docs" name="documents_required" required>
+                </div>
+                <div class="input-group">
+                    <label>Application Link</label>
+                    <input type="url" id="m_link" name="application_link" required>
+                </div>
+                <div class="input-group">
+                    <label>State (Leave empty for Central)</label>
+                    <select id="m_state" name="state">
+                        <option value="">Central (All India)</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                        <option value="Delhi">Delhi</option>
+                    </select>
+                </div>
+
+                <!-- Eligibility Rules -->
+                <h3>Eligibility Rules (Optional)</h3>
+                <div class="input-group-row">
+                    <div class="input-group">
+                        <label>Min Age</label>
+                        <input type="number" id="m_min_age" name="min_age">
+                    </div>
+                    <div class="input-group">
+                        <label>Max Age</label>
+                        <input type="number" id="m_max_age" name="max_age">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Max Income</label>
+                    <input type="number" id="m_max_income" name="max_income">
+                </div>
+                <div class="input-group">
+                    <label>Category</label>
+                    <select id="m_category" name="category">
+                        <option value="">Any</option>
+                        <option value="General">General</option>
+                        <option value="OBC">OBC</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Gender</label>
+                    <select id="m_gender" name="gender">
+                        <option value="">Any</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Occupation</label>
+                    <select id="m_occupation" name="occupation">
+                        <option value="">Any</option>
+                        <option value="Student">Student</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Farmer">Farmer</option>
+                        <option value="Daily Wage Worker">Daily Wage Worker</option>
+                        <option value="Self Employed">Self Employed</option>
+                        <option value="Government Employee">Government Employee</option>
+                        <option value="Private Employee">Private Employee</option>
+                        <option value="Unorganized">Unorganized Sector</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Education</label>
+                    <select id="m_education" name="education">
+                        <option value="">Any</option>
+                        <option value="Uneducated">Uneducated</option>
+                        <option value="10th Pass">10th Pass</option>
+                        <option value="12th Pass">12th Pass</option>
+                        <option value="Graduate">Graduate</option>
+                        <option value="Post Graduate">Post Graduate</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="modalBtn" class="btn-primary btn-block">Save Scheme</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAddModal() {
+            document.getElementById('addSchemeModal').style.display = 'block';
+            document.getElementById('modalTitle').innerText = 'Add New Government Scheme';
+            document.getElementById('modalBtn').innerText = 'Save Scheme';
+            document.getElementById('schemeForm').action = "{{ url_for('add_scheme') }}";
+            document.getElementById('schemeForm').reset();
+            document.getElementById('scheme_id').value = '';
+        }
+
+        function openEditModal(data) {
+            document.getElementById('addSchemeModal').style.display = 'block';
+            document.getElementById('modalTitle').innerText = 'Edit Scheme';
+            document.getElementById('modalBtn').innerText = 'Update Scheme';
+            document.getElementById('schemeForm').action = "{{ url_for('update_scheme') }}";
+
+            // Populate Fields
+            const s = data.scheme;
+            const r = data.rules || {};
+
+            document.getElementById('scheme_id').value = s.id;
+            document.getElementById('m_name').value = s.name;
+            document.getElementById('m_desc').value = s.description;
+            document.getElementById('m_benefits').value = s.benefits;
+            document.getElementById('m_docs').value = s.documents_required || s.documents; // Handle potential key name diff
+            document.getElementById('m_link').value = s.application_link || s.link;
+            document.getElementById('m_state').value = s.state || '';
+
+            document.getElementById('m_min_age').value = r.min_age || '';
+            document.getElementById('m_max_age').value = r.max_age || '';
+            document.getElementById('m_max_income').value = r.max_income || '';
+            document.getElementById('m_category').value = r.category || '';
+            document.getElementById('m_gender').value = r.gender || '';
+            document.getElementById('m_occupation').value = r.occupation || '';
+            document.getElementById('m_education').value = r.education || '';
+        }
+
+        function closeModal() {
+            document.getElementById('addSchemeModal').style.display = 'none';
+        }
+
+        // Close modal if clicked outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('addSchemeModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

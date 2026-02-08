@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | GovScheme AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="glass-container">
+        <div class="split-screen">
+            <!-- Left Side: Interactive/Visual -->
+            <div class="split-left">
+                <div class="blob blob-1"></div>
+                <div class="blob blob-2"></div>
+                <div class="glass-card" style="text-align: center; max-width: 400px; z-index: 1;">
+                    <h1>Join Us Today! 🚀</h1>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 10px;">
+                        Create an account to track your eligible schemes and get notified about new opportunities.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side: Form -->
+            <div class="split-right">
+                <div class="auth-form-container" style="max-width: 400px; width: 100%; margin: 0 auto;">
+                    <a href="{{ url_for('index') }}" style="color: #fff; opacity: 0.7; font-size: 0.9rem;">&larr; Back
+                        to Home</a>
+                    <h2 style="font-size: 2rem; margin: 2rem 0; color: #fff;">Create Account</h2>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="flash-messages" style="position: static; margin-bottom: 20px;">
+                        {% for category, message in messages %}
+                        <div class="flash-msg {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('register') }}" method="POST">
+                        <div class="input-group">
+                            <label for="name" style="color: #cbd5e1;">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="John Doe"
+                                style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="email" style="color: #cbd5e1;">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="name@example.com"
+                                style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="password" style="color: #cbd5e1;">Password</label>
+                            <input type="password" id="password" name="password" required placeholder="••••••••"
+                                style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: white;">
+                        </div>
+
+                        <button type="submit" class="btn-primary" style="margin-top: 2rem;">Sign Up</button>
+                    </form>
+
+                    <p style="margin-top: 1.5rem; text-align: center; color: #cbd5e1;">
+                        Already have an account? <a href="{{ url_for('login') }}"
+                            style="color: #fff; font-weight: 600;">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+{
+  "schemes": [
+    {
+      "scheme_id": 1,
+      "scheme_name": "National Student Scholarship",
+      "description": "Scholarship for students from low-income families",
+      "benefits": "Financial aid for tuition",
+      "documents_required": "Education certificates, income proof",
+      "application_link": "https://example.gov/scholarship",
+      "state": null,
+      "is_active": 1
+    },
+    {
+      "scheme_id": 2,
+      "scheme_name": "State Farmer Support",
+      "description": "Support for farmers in Maharashtra",
+      "benefits": "Subsidies",
+      "documents_required": "Land records",
+      "application_link": "https://maha.gov/farm-support",
+      "state": "Maharashtra",
+      "is_active": 1
+    },
+    {
+      "scheme_id": 3,
+      "scheme_name": "Disability Assistance",
+      "description": "Assistance for persons with disability",
+      "benefits": "Monthly allowance",
+      "documents_required": "Disability certificate",
+      "application_link": "https://example.gov/disability",
+      "state": null,
+      "is_active": 1
+    }
+  ],
+  "rules": [
+    {
+      "rule_id": 1,
+      "scheme_id": 1,
+      "min_age": 18,
+      "max_age": 30,
+      "max_income": 200000.0,
+      "category": null,
+      "gender": null,
+      "occupation": "Student",
+      "disability": null,
+      "education": "Graduate"
+    },
+    {
+      "rule_id": 2,
+      "scheme_id": 2,
+      "min_age": null,
+      "max_age": null,
+      "max_income": null,
+      "category": null,
+      "gender": null,
+      "occupation": "Farmer",
+      "disability": null,
+      "education": null
+    },
+    {
+      "rule_id": 3,
+      "scheme_id": 3,
+      "min_age": null,
+      "max_age": null,
+      "max_income": 500000.0,
+      "category": null,
+      "gender": null,
+      "occupation": null,
+      "disability": "Yes",
+      "education": null
+    }
+  ]
+}
