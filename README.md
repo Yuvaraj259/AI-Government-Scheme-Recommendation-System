@@ -1,81 +1,180 @@
-Product Requirements Document (PRD)
-AI Government Scheme Recommendation System
-1. Introduction
-1.1 Purpose The AI Government Scheme Recommendation System aims to simplify the discovery of government welfare schemes for Indian citizens. By leveraging user profile data (age, income, occupation, etc.) and a robust rule-based engine, the system provides personalized scheme recommendations, ensuring citizens can easily access benefits they are eligible for.
+🇮🇳 AI Government Scheme Recommendation System
 
-1.2 Scope The system currently focuses on:
+A smart, rule-based platform that helps Indian citizens discover government schemes they are actually eligible for — without confusion.
 
-User Registration and Profile Management.
-Automated Eligibility Checking based on defined rules.
-Admin Interface for managing scheme data and eligibility criteria.
-Secure Authentication and Role-Based Access Control.
-2. User Personas
-2.1 Citizen (End User)
+🚀 Overview
 
-Goal: Find government schemes relevant to their personal and financial status.
-Pain Points: Information overload, complex eligibility criteria, lack of centralized information.
-2.2 Administrator
+Finding the right government welfare scheme is hard:
 
-Goal: Maintain an up-to-date database of government schemes and their rules.
-Needs: Easy-to-use interface to add, update, and delete schemes and manage eligibility logic.
-3. Functional Requirements
-3.1 User Authentication & Authorization
-Registration: Users can sign up using email, name, and password.
-Login: Secure login with hashed passwords.
-Role Management: Distinction between 'User' and 'Admin' roles. Default registration is 'User'.
-Session Management: Secure session handling using Flask-Login.
-3.2 Scheme Recommendation Engine
-Input: User provides details like Age, Income, Gender, Occupation, Category, State, Disability status, and Education.
-Processing: A rule-based logic engine (
-check_eligibility
-) compares user data against stored scheme rules.
-Output: A list of eligible schemes with details (Benefits, Description, Application Link).
-Logic: Supports complex criteria including comparisons (>, <, =), set membership, and boolean logic.
-3.3 Admin Dashboard
-Dashboard View: Overview of total schemes and registered users.
-Scheme Management:
-Add Scheme: Form to input scheme details (Name, Beneficiary, Documents) and eligibility rules (Age, Income limits, etc.).
-Update Scheme: Modify existing scheme details and rules.
-Delete Scheme: Remove obsolete schemes.
-View Schemes: List all schemes with their active status.
-3.4 User Interface
-Home Page: Landing page with access to recommendations.
-Login/Register Pages: Standard auth forms.
-Admin Panel: Restricted area for administrators.
-Response Handling: Clear success/error messages (Flash messages) for user actions.
-4. Technical Architecture
-4.1 Tech Stack
+Information is scattered
 
-Backend Framework: Python (Flask)
-Database: MySQL (accessed via mysql-connector-python or similar)
-Frontend: HTML5, CSS3, JavaScript (Jinja2 Templates)
-Authentication: Flask-Login, Werkzeug Security
-Hosting/Deployment: Ready for platforms like Render/Railway (Gunicorn support).
-4.2 Database Schema
+Eligibility rules are complex
 
-Users Table: user_id, name, 
+People don’t know where to start
+
+This project solves that.
+
+The AI Government Scheme Recommendation System uses a rule-based eligibility engine to analyze user details (age, income, occupation, etc.) and instantly recommend relevant government schemes with benefits, required documents, and application links.
+
+✅ No Aadhaar storage
+✅ Transparent logic
+✅ Admin-managed, real-time data
+
+🎯 Key Objectives
+
+Simplify access to government welfare schemes
+
+Reduce information overload for citizens
+
+Provide accurate, eligibility-based recommendations
+
+Offer an admin-friendly system to manage schemes & rules
+
+👥 User Personas
+🧑 Citizen (End User)
+
+Goal:
+Find government schemes relevant to their personal and financial status.
+
+Pain Points:
+
+Confusing eligibility criteria
+
+No centralized platform
+
+Too many irrelevant schemes
+
+🛠 Administrator
+
+Goal:
+Maintain an accurate and up-to-date database of schemes.
+
+Needs:
+
+Easy admin panel
+
+Ability to add/update/delete schemes
+
+Manage eligibility rules without coding
+
+⚙️ How the System Works
+
+User enters basic details:
+
+Age, Income, Gender, Category
+
+Occupation, State, Education, Disability status
+
+Backend runs a rule-based eligibility check
+
+System returns:
+
+✅ Eligible schemes
+
+🎁 Benefits
+
+📄 Required documents
+
+🔗 Application links / steps
+
+🧩 Features
+✅ User Features
+
+Simple eligibility form
+
+Instant scheme recommendations
+
+Clear scheme details & links
+
+No sensitive ID storage
+
+✅ Admin Features
+
+Add / update / delete schemes
+
+Define eligibility rules
+
+Activate / deactivate schemes
+
+Manage data in real time
+
+🏗️ Tech Stack
+
+Frontend
+
+HTML5
+
+CSS3
+
+JavaScript
+
+Backend
+
+Python (Flask)
+
+Rule-based eligibility engine
+
+Database
+
+MySQL
+
+Security
+
+Hashed passwords
+
+Role-based access control
+
+Parameterized SQL queries
+
+Deployment Ready
+
+Render / Railway
+
+Gunicorn support
+
+🗄️ Database Design
+Users
+
+user_id
+
+name
+
 email
-, password_hash, role, created_at.
-Schemes Table: scheme_id, scheme_name, description, benefits, documents_required, application_link, state, is_active.
-Eligibility Rules Table: rule_id, scheme_id, min_age, max_age, max_income, category, gender, occupation, education, disability.
-5. Non-Functional Requirements
-Security:
-Passwords must be hashed.
-SQL Injection prevention using parameterized queries.
-Route protection for Admin endpoints.
-Performance: Efficient SQL queries with proper indexing (e.g., on scheme_id).
-Scalability: Modular code structure (
-logic.py
-, 
-models.py
-, 
-db.py
-) allows for future expansion.
-Usability: Simple and intuitive forms for users with varied digital literacy.
-6. Future Roadmap
-AI/ML Integration: Move from rule-based to ML-based recommendations for fuzzy matching and behavioral prediction.
-Multilingual Support: Support for regional Indian languages (Hindi, Tamil, etc.).
-Chatbot Interface: Conversational AI to guide users through the application process.
-Document Analysis: OCR integration to verify uploaded documents against requirements.
-Notification System: Email/SMS alerts for new relevant schemes.
-Mobile App: Dedicated mobile application for broader reach.
+
+password_hash
+
+role
+
+created_at
+
+Schemes
+
+scheme_id
+
+scheme_name
+
+description
+
+benefits
+
+documents_required
+
+application_link
+
+state
+
+is_active
+
+Future Roadmap
+
+🤖 ML-based recommendation ranking
+
+🌍 Multilingual support (Hindi, Kannada, Tamil, etc.)
+
+💬 Chatbot for scheme guidance
+
+📷 OCR-based document verification
+
+🔔 Email / SMS notifications
+
+📱 Mobile application
